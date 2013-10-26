@@ -20,30 +20,28 @@ public class Solution {
 	int taille_minSection = 500;	// m	
 	
 	static double timeAll;
-
+	static double timeDec;
     
 	public static void acceleration()
 	{
 		
-		float dt = 0.0001f;     		// frequence d'echantillonage en secondes
-		float accel = 2.7f; 		// m/s²
+		float dt = 0.001f;     		// frequence d'echantillonage en secondes
+		float accel = 0.75f; 		// m/s²
 		double speed = 0.0;         // m/s
 		double position = 0.0;      // m
 		double time;
 		
-		double rest_position = 2000;
+		double rest_position = 500;
 	 
-			for (time = 0.0; deceleration(speed, rest_position, time) >= 0; time += dt)   // Termine au bout de 2.5 secondes
+			for (time = 0.0; deceleration(speed, rest_position, time) >= 0; time += dt)   
 				{
 					System.out.println("-----\t" + time + " | " + speed + " | " + position);
 					position += (accel * dt * dt / 2.0) + speed * dt;
-					if(speed < 25)
-						{
+					rest_position -= (accel * dt * dt / 2.0) + speed * dt;
+					if (speed < 25){
 						speed += accel * dt;
-						}
-					
-					
-					rest_position -= position;
+				}
+					timeAll = time + timeDec;
 					
 				}
 			
@@ -55,8 +53,8 @@ public class Solution {
 	public static double deceleration(double speed, double rest_position, double time)
 	{
 		
-		float dt = 0.0001f;     // frequence d'echantillonage en secondes
-		float decel = 3.8f; // m/s²
+		float dt = 0.001f;     // frequence d'echantillonage en secondes
+		float decel = 1.055555556f; // m/s²
 
 		double temps;
 		
@@ -65,9 +63,8 @@ public class Solution {
 					//System.out.println( "*****\t" + time + "-" + speed + "-" + rest_position);
 					rest_position -= (decel * dt * dt / 2.0) + speed * dt;
 					speed -= decel * dt;
-					
-					
 				}		
+			timeDec = temps;
 		return rest_position;
 		
 	}
@@ -82,6 +79,7 @@ public class Solution {
 		
 		acceleration();
 		//deceleration(50, 1000);
+		System.out.println(timeAll);
 		
 		for (int i = 0;i < nbr_sections; i++)
 		{
