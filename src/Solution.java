@@ -8,16 +8,6 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 
 public class Solution {
 	
-	int total_section = 100000;
-	
-	float acc = 2.7f;				// km/h/s
-	float desc = 3.8f;				// km/h/s
-	
-	int max_speed = 90;				// km/h
-	int taille_train = 100;			// m
-	int taille_station = 150;		// m
-	
-	int taille_minSection = 500;	// m	
 	
 	static double timeAll;
 	static double timeDec;
@@ -25,40 +15,41 @@ public class Solution {
 	public static void acceleration()
 	{
 		
-		float dt = 0.001f;     		// frequence d'echantillonage en secondes
+		float dt = 0.01f;     		// frequence d'echantillonage en secondes
 		float accel = 0.75f; 		// m/s²
 		double speed = 0.0;         // m/s
 		double position = 0.0;      // m
 		double time;
 		
-		double rest_position = 500;
+		double rest_position = 100000;
 	 
-			for (time = 0.0; deceleration(speed, rest_position, time) >= 0; time += dt)   
+			for (time = 0.0; deceleration(speed, rest_position) >= 0; time += dt)   
 				{
-					System.out.println("-----\t" + time + " | " + speed + " | " + position);
+					
 					position += (accel * dt * dt / 2.0) + speed * dt;
 					rest_position -= (accel * dt * dt / 2.0) + speed * dt;
 					if (speed < 25){
 						speed += accel * dt;
 				}
-					timeAll = time + timeDec;
+					//System.out.println("-----\t" + time + " | " + speed + " | " + position);
+					
 					
 				}
 			
-		
+			timeAll = time + timeDec;
 		
 	}
 	
 	
-	public static double deceleration(double speed, double rest_position, double time)
+	public static double deceleration(double speed, double rest_position)
 	{
 		
-		float dt = 0.001f;     // frequence d'echantillonage en secondes
-		float decel = 1.055555556f; // m/s²
+		float dt = 0.01f;     // frequence d'echantillonage en secondes
+		float decel = 1.05555555555555556f; // m/s²
 
 		double temps;
 		
-			for (temps = time; speed >= 0; time += dt)   // Termine au bout de 2.5 secondes
+			for (temps = 0.0; speed >= 0; temps += dt)   // Termine au bout de 2.5 secondes
 				{
 					//System.out.println( "*****\t" + time + "-" + speed + "-" + rest_position);
 					rest_position -= (decel * dt * dt / 2.0) + speed * dt;
@@ -78,9 +69,25 @@ public class Solution {
 		int nbr_sections = 0;
 		
 		acceleration();
-		//deceleration(50, 1000);
+
 		System.out.println(timeAll);
 		
+		output(temps_depard, temps_arrive, nbr_train, nbr_sections);
+		System.out.println("x");
+		
+		
+		
+        
+    }
+
+
+	/**
+	 * @param temps_depard
+	 * @param temps_arrive
+	 * @param nbr_train
+	 * @param nbr_sections
+	 */
+	private static void output(int temps_depard, int temps_arrive, int nbr_train, int nbr_sections) {
 		for (int i = 0;i < nbr_sections; i++)
 		{
 			System.out.println("***** -");
@@ -94,10 +101,5 @@ public class Solution {
 			System.out.println("*****\n");
 			
 		}
-		 System.out.println("x");
-		
-		
-		
-        
-    }
+	}
 }
