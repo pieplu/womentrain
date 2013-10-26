@@ -10,6 +10,7 @@ public class Solution {
 	static boolean pasDerreur;
 	static int tabTempSection[];
 	
+	static int dernier=0;
 	
 	public static int[] input(){
 		pasDerreur = true;
@@ -63,14 +64,25 @@ public class Solution {
 			}else{
 				depart = tabTempSection[i+1] + pause;
 			}
-			
-			
+			 if (arrive > depart){
+				 depart = arrive + 121;
+			 }
+			 if (i == (tailleSection.length-1)){
+				 if (arrive == (dernier+1)){
+					 depart += 121;
+				 }
+				 
+			 }
+			 
+			// System.out.print(" AR " + arrive + " ~| "+depart);
 			arrive = depart + (int)Math.ceil(distanceAcceleration(tailleSection[i]));
 			System.out.printf(" - %5s  %5s",  depart , arrive);
 			
 			tabTempSection[i]=depart;
 			if (i == (tailleSection.length-1)){
 				tabTempSection[i+1]=arrive;
+				dernier = arrive;
+				
 			}
 		}
 		
