@@ -8,37 +8,59 @@ public class Solution {
 	
 	static double timeDec;
 	static double TIMEEXIT = 16.3295;
+	static boolean pasDerreur;
 	
 	
 	
 	public static int[] input(){
+		pasDerreur = true;
 		Scanner  monclavier = new Scanner(System.in);
-		
-		
+
 		System.out.println("saisir vous arguments: ");
 		String chaine_arg = monclavier.nextLine();		
 		String tab[] = chaine_arg.split(" ");
-		int nbArg = 0;
+		int argumentInt[] = new int[tab.length];
 		
-		
-						
-		for(int i = 0; i<tab.length; i++){
-			nbArg++;
-			
+		for(int j = 0; j< argumentInt.length; j++){
+			try{ argumentInt[j] = Integer.parseInt(tab[j]);
+			}catch(Exception e){
+				pasDerreur = false;
+			}
+			if (pasDerreur){argumentInt[j] = Integer.parseInt(tab[j]);	
+			}
 		}
-		
-		int tabInt[] = new int[nbArg];
-		
-		for(int j = 0; j< nbArg; j++){
-			tabInt[j] = Integer.parseInt(tab[j]);			
-		}
-		
-		
-		
-		return tabInt;
-		
+		return argumentInt;	
 	}
-    
+	
+	
+	
+	public static void erreur(){
+		System.out.println("ERROR");
+	}
+	
+	
+	
+	//=============================================================================
+	//==================  Acceleration et Decceleration   CALCUL  =================
+	//=============================================================================
+	
+	private static void calcul(int[] sections, int[] tabSections) {
+		for (int i=0; i<tabSections.length; i++){
+			System.out.println(tabSections[i]);
+		}
+		
+		for (int i=0; i<sections.length; i++){
+			System.out.print("\t" + distanceAcceleration(sections[i]));
+		}
+		
+		System.out.println(distanceAcceleration(100000));
+		System.out.println(TIMEEXIT);
+		System.out.println("x");
+	}
+	
+	
+	
+	
 	public static double distanceAcceleration(double distanceSection){
 		float dt = 0.0005f;     	// frequence d'echantillonage en secondes
 		float accel = 0.75f; 		// m/s²
@@ -47,7 +69,6 @@ public class Solution {
 		double time;
 		double distTemp;
 		double rest_position = distanceSection;
-		
 		
 			for (time = 0.0; distanceDecceleration(speed, rest_position) >= 0; time += dt){
 				distTemp = (accel * dt * dt / 2.00) + speed * dt;
@@ -81,6 +102,13 @@ public class Solution {
 		return rest_position;	
 	}
 	
+	
+	
+	
+	//=============================================================================
+	//==================          		MAIN  					 ==================
+	//=============================================================================
+	
 	public static void main(String[] args) {
 		
 		int temps_depard = 0;
@@ -94,28 +122,19 @@ public class Solution {
 		ArrayList liste1= new ArrayList();
 		int tabSections[] = input();
 		
-		for (int i=0; i<tabSections.length; i++){
-			System.out.println(tabSections[i]);
+		if(pasDerreur){
+			calcul(sections, tabSections);
+		}else{
+			erreur();
 		}
 		
-		
-		
-		
-		for (int i=0; i<sections.length; i++){
-			System.out.print("\t" + distanceAcceleration(sections[i]));
-		}
-		
-		
-		System.out.println(distanceAcceleration(100000));
-		System.out.println(TIMEEXIT);
-		
-		output(temps_depard, temps_arrive, nbr_train, nbr_sections);
-		System.out.println("x");
-		
-		
-		
-        
+   
     }
+
+
+	
+	
+
 
 
 	private static void output(int temps_depard, int temps_arrive, int nbr_train, int nbr_sections) {
