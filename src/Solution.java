@@ -16,7 +16,6 @@ public class Solution {
 		pasDerreur = true;
 		Scanner  monclavier = new Scanner(System.in);
 
-		System.out.println("saisir vous arguments: ");
 		String chaine_arg = monclavier.nextLine();		
 		String tab[] = chaine_arg.split(" ");
 		int argumentInt[] = new int[tab.length];
@@ -44,25 +43,30 @@ public class Solution {
 	//==================  Acceleration et Decceleration   CALCUL  =================
 	//=============================================================================
 	
-	private static void calcul(int[] sections, int[] tabSections) {
+	private static void calcul( int[] tabSections) {
 		for (int i=0; i<tabSections.length; i++){
-			System.out.println(tabSections[i]);
+			//System.out.println(tabSections[i]);
 		}
 		
-		for (int i=0; i<sections.length; i++){
-			System.out.print("\t" + distanceAcceleration(sections[i]));
+		System.out.printf("1 : ***** -");
+		for (int i=1; i<tabSections.length; i++){
+			//System.out.print("\t" + (int)Math.ceil(distanceAcceleration(tabSections[i]))); // arrondi au sup
+			System.out.printf("%6s %6s", 1, 1 + ((int)Math.ceil(distanceAcceleration(tabSections[i]))));
 		}
-		
-		System.out.println(distanceAcceleration(100000));
-		System.out.println(TIMEEXIT);
-		System.out.println("x");
+		System.out.printf(" *****");
+		//System.out.println("\n temps sortit station: " + TIMEEXIT);
+		//System.out.println("x");
 	}
-	
-	
+    /*
+	"     1"
+	"     1     49 -   170    218 -   339   4328"
+	"     49"
+	"   170"
+*/
 	
 	
 	public static double distanceAcceleration(double distanceSection){
-		float dt = 0.0005f;     	// frequence d'echantillonage en secondes
+		float dt = 0.005f;     	// frequence d'echantillonage en secondes
 		float accel = 0.75f; 		// m/s²
 		double speed = 0.0;         // m/s
 		//double position = 0.0;      // m
@@ -70,15 +74,15 @@ public class Solution {
 		double distTemp;
 		double rest_position = distanceSection;
 		
-			for (time = 0.0; distanceDecceleration(speed, rest_position) >= 0; time += dt){
-				distTemp = (accel * dt * dt / 2.00) + speed * dt;
-				//position += distTemp;
-				rest_position -= distTemp;
-				if (speed < 25){
-					speed += accel * dt;
-				}
-				//System.out.println("-----\t" + time + " | " + speed + " | " + position);
+		for (time = 0.0; distanceDecceleration(speed, rest_position) >= 0; time += dt){
+			distTemp = (accel * dt * dt / 2.00) + speed * dt;
+			//position += distTemp;
+			rest_position -= distTemp;
+			if (speed < 25){
+				speed += accel * dt;
 			}
+			//System.out.println("-----\t" + time + " | " + speed + " | " + position);
+		}
 		return time + timeDec;
 	}
 	
@@ -122,8 +126,10 @@ public class Solution {
 		ArrayList liste1= new ArrayList();
 		int tabSections[] = input();
 		
+		verification(tabSections);
+		
 		if(pasDerreur){
-			calcul(sections, tabSections);
+			calcul(tabSections);
 		}else{
 			erreur();
 		}
@@ -137,15 +143,40 @@ public class Solution {
 
 
 
+	private static void verification(int tabAverif[]) {
+		int nTrain=tabAverif[0];
+		int tailleTabAverif = tabAverif.length;
+		
+		
+		if( nTrain > 5 || nTrain<1 || tailleTabAverif > 6){
+			pasDerreur = false;
+		}else{
+			for (int i = 1 ; i < tailleTabAverif; i++){
+				if(tabAverif[i] < 500 ){
+					pasDerreur = false;
+					break;
+				}
+			}
+		}
+		
+		int total = 0;
+		for (int i=1; i < tailleTabAverif; i++){
+			total += tabAverif[i];
+		}
+		if((total>100000)){
+			pasDerreur = false;
+		}
+		
+	}
+
+
+
 	private static void output(int temps_depard, int temps_arrive, int nbr_train, int nbr_sections) {
-		for (int i = 0;i < nbr_sections; i++)
-		{
+		for (int i = 0;i < nbr_sections; i++){
 			System.out.println("***** -");
 			
-			for (int j= 0;j < nbr_train; j++)
-			{
+			for (int j= 0;j < nbr_train; j++){
 				System.out.println("\t" + temps_depard + "\t" + temps_arrive + " -");
-				
 			}
 			
 			System.out.println("*****\n");
