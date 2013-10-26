@@ -8,6 +8,36 @@ public class Solution {
 	
 	static double timeDec;
 	static double TIMEEXIT = 16.3295;
+	
+	
+	
+	public static int[] input(){
+		Scanner  monclavier = new Scanner(System.in);
+		
+		
+		System.out.println("saisir vous arguments: ");
+		String chaine_arg = monclavier.nextLine();		
+		String tab[] = chaine_arg.split(" ");
+		int nbArg = 0;
+		
+		
+						
+		for(int i = 0; i<tab.length; i++){
+			nbArg++;
+			
+		}
+		
+		int tabInt[] = new int[nbArg];
+		
+		for(int j = 0; j< nbArg; j++){
+			tabInt[j] = Integer.parseInt(tab[j]);			
+		}
+		
+		
+		
+		return tabInt;
+		
+	}
     
 	public static double distanceAcceleration(double distanceSection){
 		float dt = 0.0005f;     	// frequence d'echantillonage en secondes
@@ -62,6 +92,14 @@ public class Solution {
 		
 		int tempDepart;
 		ArrayList liste1= new ArrayList();
+		int tabSections[] = input();
+		
+		for (int i=0; i<tabSections.length; i++){
+			System.out.println(tabSections[i]);
+		}
+		
+		
+		
 		
 		for (int i=0; i<sections.length; i++){
 			System.out.print("\t" + distanceAcceleration(sections[i]));
