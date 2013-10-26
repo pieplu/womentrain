@@ -7,10 +7,8 @@ import java.util.regex.*;
 public class Solution {
 	
 	static double timeDec;
-	static double TIMEEXIT = 16.3295;
 	static boolean pasDerreur;
-	
-
+	static int tabTempSection[];
 	
 	
 	public static int[] input(){
@@ -48,7 +46,7 @@ public class Solution {
 
 	
 	
-	private static int[] calcul(int[] tailleSection, int numTrain, int[]tabTempSection) {
+	private static void calcul(int[] tailleSection, int numTrain) {
 		System.out.printf(numTrain + " : *****");
 		int tempdepart=0;
 		int pause = 1;
@@ -79,19 +77,9 @@ public class Solution {
 		System.out.printf(" *****\n");
 		
 		
-		return tabTempSection;
+		//return tabTempSection;
 	}
-		
-		
-		
-		
-	
-    /*
-	"     1"
-	"     1     49 -   170    218 -   339   4328"
-	"     49"
-	"   170"
-*/
+
 	
 	
 	public static double distanceAcceleration(double distanceSection){
@@ -118,15 +106,18 @@ public class Solution {
 	
 	public static double distanceDecceleration(double speed, double rest_position){
 		float dt = 0.5f;     	// frequence d'echantillonage en secondes
-		float decel = 1.05556f; // m/s²
+		float decel = 1.055556f; // m/s²
 		double restPourDt = rest_position;
 		double temps;
 		
 		for (temps = 0.0; speed >= 0; temps += dt){
-			if(restPourDt<1000){dt = 0.005f;
-			}else if(restPourDt<500){dt= 0.0005f;
-			}else if(restPourDt<200){dt = 0.000005f;
-			}
+			if(restPourDt<500){
+				dt = 0.005f;
+			}else if(restPourDt<300){
+				dt= 0.0005f;
+			}//else if(restPourDt<200){
+				//dt = 0.000005f;
+			//}
 			//System.out.println( "*****\t" + time + "-" + speed + "-" + rest_position);
 			rest_position -= (decel * dt * dt / 2.00) + speed * dt;
 			speed -= decel * dt;
@@ -143,15 +134,6 @@ public class Solution {
 	//=============================================================================
 	
 	public static void main(String[] args) {
-		
-		int temps_depard = 0;
-		int temps_arrive = 0;
-		int nbr_train = 0;
-		int nbr_sections = 0;
-		
-		
-		
-		int tempDepart;
 
 		int tabInput[] = input();
 		verification(tabInput);
@@ -163,14 +145,14 @@ public class Solution {
 		}
 		
 		if(pasDerreur){
-			int tabTempSection[] = new int[tailleSection.length +1];
+			tabTempSection = new int[tailleSection.length +1];
 			for(int i =0; i< tabTempSection.length; i++){
 				tabTempSection[i]=0;
 			}
 			
 			
 			for(int i= 1;i<=nbTrain ;i++ ){
-				tabTempSection = calcul(tailleSection, i, tabTempSection);
+				calcul(tailleSection, i);
 			}
 			
 		}else{
@@ -206,7 +188,7 @@ public class Solution {
 		for (int i=1; i < tailleTabAverif; i++){
 			total += tabAverif[i];
 		}
-		if((total>100000)){
+		if((total != 100000)){
 			pasDerreur = false;
 		}
 		
@@ -214,16 +196,5 @@ public class Solution {
 
 
 
-	private static void output(int temps_depard, int temps_arrive, int nbr_train, int nbr_sections) {
-		for (int i = 0;i < nbr_sections; i++){
-			System.out.println("***** -");
-			
-			for (int j= 0;j < nbr_train; j++){
-				System.out.println("\t" + temps_depard + "\t" + temps_arrive + " -");
-			}
-			
-			System.out.println("*****\n");
-			
-		}
-	}
+	
 }
