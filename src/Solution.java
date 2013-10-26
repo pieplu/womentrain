@@ -42,6 +42,26 @@ public class Solution {
 	public static void main(String[] args) {
 		
 		int temps_depard = 0;
+		int temps_arrive = 0;
+		
+		int nbr_train = 0;
+		int nbr_sections = 0;
+		
+		for (int i = 0;i < nbr_sections; i++)
+		{
+			System.out.println("***** -");
+			
+			for (int j= 0;j < nbr_train; j++)
+			{
+				System.out.println("\t" + temps_depard + "\t" + temps_arrive + " -");
+				
+			}
+			
+			System.out.println("*****\n");
+			
+		}
+		
+		
 		
 		
         
