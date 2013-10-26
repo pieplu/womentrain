@@ -49,44 +49,43 @@ public class Solution {
 	
 	
 	private static int[] calcul(int[] tailleSection, int numTrain, int[]tabTempSection) {
-		System.out.printf(numTrain + " : ***** - ");
+		System.out.printf(numTrain + " : *****");
 		int tempdepart=0;
 		int pause = 1;
 		int depart = 0;
 		int arrive = 0;
 		
 		for(int i =0; i < tailleSection.length; i++){
-			if (i > 0){
+			if (numTrain == 1 && i > 0){
 				pause =121;
 			}
-			depart = tabTempSection[i+1] + arrive +pause;
+			
+			if (numTrain ==1){
+				depart = tabTempSection[i+1] + arrive +pause;
+			}else{
+				depart = tabTempSection[i+1] + pause;
+			}
+			
+			
 			arrive = depart + (int)Math.ceil(distanceAcceleration(tailleSection[i]));
-			System.out.printf("%5s  %5s - ",  depart , arrive);
+			System.out.printf(" - %5s  %5s",  depart , arrive);
+			
+			tabTempSection[i]=depart;
+			if (i == (tailleSection.length-1)){
+				tabTempSection[i+1]=arrive;
+			}
 		}
 		
 		System.out.printf(" *****\n");
 		
 		
-		
-		
-		
-		/*
-		for (int i=1; i<tailleSection.length; i++){
-			if (i > 1){
-				pause =121;
-			}
-			depart = tabTempSection[i-1] + (tempdepart += pause);
-			arrive = (tempdepart += ((int)Math.ceil(distanceAcceleration(tailleSection[i]))));
-			
-			System.out.printf("%5s  %5s - ",  depart , arrive);
-			tabTempSection[i-1] = depart;
-			
-		}
-		*/
-		
-		
 		return tabTempSection;
 	}
+		
+		
+		
+		
+	
     /*
 	"     1"
 	"     1     49 -   170    218 -   339   4328"
