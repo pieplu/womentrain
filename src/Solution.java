@@ -10,6 +10,7 @@ public class Solution {
 	static double TIMEEXIT = 16.3295;
 	static boolean pasDerreur;
 	
+
 	
 	
 	public static int[] input(){
@@ -39,23 +40,52 @@ public class Solution {
 	
 	
 	
+	
+	
 	//=============================================================================
 	//==================  Acceleration et Decceleration   CALCUL  =================
 	//=============================================================================
+
 	
-	private static void calcul( int[] tabSections) {
-		for (int i=0; i<tabSections.length; i++){
-			//System.out.println(tabSections[i]);
+	
+	private static int[] calcul(int[] tailleSection, int numTrain, int[]tabTempSection) {
+		System.out.printf(numTrain + " : ***** - ");
+		int tempdepart=0;
+		int pause = 1;
+		int depart = 0;
+		int arrive = 0;
+		
+		for(int i =0; i < tailleSection.length; i++){
+			if (i > 0){
+				pause =121;
+			}
+			depart = tabTempSection[i+1] + arrive +pause;
+			arrive = depart + (int)Math.ceil(distanceAcceleration(tailleSection[i]));
+			System.out.printf("%5s  %5s - ",  depart , arrive);
 		}
 		
-		System.out.printf("1 : ***** -");
-		for (int i=1; i<tabSections.length; i++){
-			//System.out.print("\t" + (int)Math.ceil(distanceAcceleration(tabSections[i]))); // arrondi au sup
-			System.out.printf("%6s %6s", 1, 1 + ((int)Math.ceil(distanceAcceleration(tabSections[i]))));
+		System.out.printf(" *****\n");
+		
+		
+		
+		
+		
+		/*
+		for (int i=1; i<tailleSection.length; i++){
+			if (i > 1){
+				pause =121;
+			}
+			depart = tabTempSection[i-1] + (tempdepart += pause);
+			arrive = (tempdepart += ((int)Math.ceil(distanceAcceleration(tailleSection[i]))));
+			
+			System.out.printf("%5s  %5s - ",  depart , arrive);
+			tabTempSection[i-1] = depart;
+			
 		}
-		System.out.printf(" *****");
-		//System.out.println("\n temps sortit station: " + TIMEEXIT);
-		//System.out.println("x");
+		*/
+		
+		
+		return tabTempSection;
 	}
     /*
 	"     1"
@@ -67,9 +97,9 @@ public class Solution {
 	
 	public static double distanceAcceleration(double distanceSection){
 		float dt = 0.005f;     	// frequence d'echantillonage en secondes
-		float accel = 0.75f; 		// m/s²
-		double speed = 0.0;         // m/s
-		//double position = 0.0;      // m
+		float accel = 0.75f; 		// m/s²        // m/s
+		//double position = 0.0; 
+		double speed=0.0;// m
 		double time;
 		double distTemp;
 		double rest_position = distanceSection;
@@ -120,16 +150,30 @@ public class Solution {
 		int nbr_train = 0;
 		int nbr_sections = 0;
 		
-		int sections[]= {1000,4000};
+		
 		
 		int tempDepart;
-		ArrayList liste1= new ArrayList();
-		int tabSections[] = input();
+
+		int tabInput[] = input();
+		verification(tabInput);
+		int nbTrain= tabInput[0];
 		
-		verification(tabSections);
+		int tailleSection[] = new int[tabInput.length -1];
+		for(int i=1;i< tabInput.length ; i++){
+			tailleSection[i-1]=tabInput[i];
+		}
 		
 		if(pasDerreur){
-			calcul(tabSections);
+			int tabTempSection[] = new int[tailleSection.length +1];
+			for(int i =0; i< tabTempSection.length; i++){
+				tabTempSection[i]=0;
+			}
+			
+			
+			for(int i= 1;i<=nbTrain ;i++ ){
+				tabTempSection = calcul(tailleSection, i, tabTempSection);
+			}
+			
 		}else{
 			erreur();
 		}
@@ -148,7 +192,7 @@ public class Solution {
 		int tailleTabAverif = tabAverif.length;
 		
 		
-		if( nTrain > 5 || nTrain<1 || tailleTabAverif > 6){
+		if( nTrain > 5 || nTrain<1 || tailleTabAverif > 7){
 			pasDerreur = false;
 		}else{
 			for (int i = 1 ; i < tailleTabAverif; i++){
