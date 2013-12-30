@@ -1,0 +1,11 @@
+Vchangement = √( 2d / (1/a1 + 1/a2))
+
+
+Si Vchangement > 25 m.s-1 (vmax)
+	t = d/vmax + ((vmax/2)(1/a1 + 1/a2))
+
+Si Vchangement < 25
+	t = Vchang/a2 + Vchang/a1
+
+a1 -> accélération
+a2 -> décélération
