@@ -91,9 +91,81 @@ public class Solution {
 		
 		//return tabTempSection;
 	}
+	
+	
+	public static double calcVitesseChangement(int distance){
+		float accel = 0.75f;
+		float decel = 1.055555556f;
+		return Math.sqrt(2 *distance / (1/accel + 1/decel));
+	}
+	
+	private static double tempDeplacement(int distance) {
+		float accel = 0.75f;
+		float decel = 1.055555556f;
+		double vitesseChangement = calcVitesseChangement(distance);
+		double vmax = 25.00;
+		if (vitesseChangement >= vmax){
+			return distance/vmax + ((vmax/2)*(1/accel + 1/decel));
+		}else{
+			return vitesseChangement/accel + vitesseChangement/decel;
+		}	
+	}
+	
+	public static void calculBis(int[] tailleSection, int numTrain){
+		
+		
+		
+		System.out.printf(numTrain + " : *****");
+		int tempdepart=0;
+		int pause = 1;
+		int depart = 0;
+		int arrive = 0;
+		
+		for(int i =0; i < tailleSection.length; i++){
+			if (numTrain == 1 && i > 0){
+				pause =121;
+			}
+			
+			if (numTrain ==1){
+				depart = tabTempSection[i+1] + arrive +pause;
+			}else{
+				depart = tabTempSection[i+1] + pause;
+			}
+			 if (arrive > depart){
+				 depart = arrive + 121;
+			 }
+			 if (i == (tailleSection.length-1)){
+				 if (arrive == (dernier+1)){
+					 depart += 121;
+				 }
+				 
+			 }
+			 
+			// System.out.print(" AR " + arrive + " ~| "+depart);
+			 
+			 
+			arrive = depart + (int)tempDeplacement(tailleSection[i]);
+			System.out.printf(" - %5s  %5s",  depart , arrive);
+			
+			tabTempSection[i]=depart;
+			if (i == (tailleSection.length-1)){
+				tabTempSection[i+1]=arrive;
+				dernier = arrive;
+				
+			}
+		}
+		
+		System.out.printf(" *****\n");
+		
+		
+	}
 
 	
 	
+
+
+
+
 	public static double distanceAcceleration(double distanceSection){
 		float dt = 0.005f;     	// frequence d'echantillonage en secondes
 		float accel = 0.75f; 		// m/s²        // m/s
@@ -162,9 +234,8 @@ public class Solution {
 				tabTempSection[i]=0;
 			}
 			
-			
 			for(int i= 1;i<=nbTrain ;i++ ){
-				calcul(tailleSection, i);
+				calculBis(tailleSection, i);
 			}
 			
 		}else{
