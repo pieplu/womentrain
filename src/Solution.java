@@ -46,7 +46,7 @@ public class Solution {
 	//=============================================================================
 
 	
-	
+	/*
 	private static void calcul(int[] tailleSection, int numTrain) {
 		System.out.printf(numTrain + " : *****");
 		int tempdepart=0;
@@ -92,6 +92,7 @@ public class Solution {
 		//return tabTempSection;
 	}
 	
+	*/
 	
 	public static double calcVitesseChangement(int distance){
 		float accel = 0.75f;
@@ -165,7 +166,7 @@ public class Solution {
 
 
 
-
+	/*
 	public static double distanceAcceleration(double distanceSection){
 		float dt = 0.005f;     	// frequence d'echantillonage en secondes
 		float accel = 0.75f; 		// m/s²        // m/s
@@ -210,7 +211,7 @@ public class Solution {
 		return rest_position;	
 	}
 	
-	
+	*/
 	
 	
 	//=============================================================================
