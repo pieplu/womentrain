@@ -112,10 +112,12 @@ public class Solution {
 	
 	
 
-	private static boolean verification(int tabAverif[]) {
-		boolean bonArgs = true;
+	private static boolean bonArgs(int tabAverif[]) {
+		
 		int nTrain=tabAverif[0];
 		int tailleTabAverif = tabAverif.length;
+		
+		boolean bonArgs = distanceTotal(tabAverif);
 		
 		if( nTrain > 5 || nTrain<1 || tailleTabAverif > 7){
 			bonArgs = false;
@@ -127,18 +129,23 @@ public class Solution {
 				}
 			}
 		}
-		
-		int total = 0;
-		for (int i=1; i < tailleTabAverif; i++){
-			total += tabAverif[i];
-		}
-		if(total != 100000){
-			bonArgs = false;
-		}
 		System.out.println(bonArgs);
 		return bonArgs;
 	}
 	
+	
+	/**
+	 * Vérifie la distance total
+	 * @param tabInput, le tableua des paramètres
+	 * @return un tableau de tailles des différentes sections
+	 */
+	private static boolean distanceTotal(int tabAverif[]) {
+		int total = 0;
+		for (int i=1; i < tabAverif.length; i++){
+			total += tabAverif[i];
+		}
+		return total == 100000;
+	}
 	
 	//=============================================================================
 	//==================          		MAIN  					 ==================
@@ -147,28 +154,29 @@ public class Solution {
 	public static void main(String[] args) {
 
 		int tabInput[] = input();
-		if(!verification(tabInput)){
+		if(!bonArgs(tabInput)){
 			erreur();
 		}
 		int nbTrain=tabInput[0];
 		int[] tailleSection = defineSections(tabInput);
 		
-			tabTempSection = new int[tailleSection.length +1];
-			for(int i =0; i< tabTempSection.length; i++){
-				tabTempSection[i]=0;
-			}
+		tabTempSection = new int[tailleSection.length +1];
+		for(int i =0; i< tabTempSection.length; i++){
+			tabTempSection[i]=0;
+		}
 			
-			for(int i= 1;i<=nbTrain ;i++ ){
-				calcul(tailleSection, i);
-			}
+		for(int i= 1;i<=nbTrain ;i++ ){
+			calcul(tailleSection, i);
+		}
 			
     }
 
 
 
 	/**
-	 * @param tabInput
-	 * @return
+	 * Sélectione les arguments de section
+	 * @param tabInput, le tableua des paramètres
+	 * @return un tableau de tailles des différentes sections
 	 */
 	private static int[] defineSections(int[] tabInput) {
 		int tailleSection[] = new int[tabInput.length -1];
