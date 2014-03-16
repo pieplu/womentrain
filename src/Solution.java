@@ -7,25 +7,20 @@ import java.util.regex.*;
 public class Solution {
 	
 	static double timeDec;
-	static boolean pasDerreur;
 	static int tabTempSection[];
 	
 	static int dernier=0;
 	
 	public static int[] input(){
-		pasDerreur = true;
-		Scanner  monclavier = new Scanner(System.in);
-
-		String chaine_arg = monclavier.nextLine();		
-		String tab[] = chaine_arg.split(" ");
+		Scanner  monclavier = new Scanner(System.in);	
+		String tab[] = monclavier.nextLine().split(" ");
 		int argumentInt[] = new int[tab.length];
 		
 		for(int j = 0; j< argumentInt.length; j++){
-			try{ argumentInt[j] = Integer.parseInt(tab[j]);
+			try{ 
+				argumentInt[j] = Integer.parseInt(tab[j]);
 			}catch(Exception e){
-				pasDerreur = false;
-			}
-			if (pasDerreur){argumentInt[j] = Integer.parseInt(tab[j]);	
+				erreur();
 			}
 		}
 		return argumentInt;	
@@ -35,6 +30,7 @@ public class Solution {
 	
 	public static void erreur(){
 		System.out.println("ERROR");
+		System.exit(0);
 	}
 	
 	
@@ -116,51 +112,17 @@ public class Solution {
 	
 	
 
-	
-	//=============================================================================
-	//==================          		MAIN  					 ==================
-	//=============================================================================
-	
-	public static void main(String[] args) {
-
-		int tabInput[] = input();
-		verification(tabInput);
-		int nbTrain= tabInput[0];
-		
-		int tailleSection[] = new int[tabInput.length -1];
-		for(int i=1;i< tabInput.length ; i++){
-			tailleSection[i-1]=tabInput[i];
-		}
-		
-		if(pasDerreur){
-			tabTempSection = new int[tailleSection.length +1];
-			for(int i =0; i< tabTempSection.length; i++){
-				tabTempSection[i]=0;
-			}
-			
-			for(int i= 1;i<=nbTrain ;i++ ){
-				calcul(tailleSection, i);
-			}
-			
-		}else{
-			erreur();
-		}
-    }
-
-
-	
-
-	private static void verification(int tabAverif[]) {
+	private static boolean verification(int tabAverif[]) {
+		boolean bonArgs = true;
 		int nTrain=tabAverif[0];
 		int tailleTabAverif = tabAverif.length;
 		
-		
 		if( nTrain > 5 || nTrain<1 || tailleTabAverif > 7){
-			pasDerreur = false;
+			bonArgs = false;
 		}else{
 			for (int i = 1 ; i < tailleTabAverif; i++){
 				if(tabAverif[i] < 500 ){
-					pasDerreur = false;
+					bonArgs = false;
 					break;
 				}
 			}
@@ -170,11 +132,56 @@ public class Solution {
 		for (int i=1; i < tailleTabAverif; i++){
 			total += tabAverif[i];
 		}
-		if((total != 100000)){
-			pasDerreur = false;
+		if(total != 100000){
+			bonArgs = false;
 		}
-		
+		System.out.println(bonArgs);
+		return bonArgs;
 	}
+	
+	
+	//=============================================================================
+	//==================          		MAIN  					 ==================
+	//=============================================================================
+	
+	public static void main(String[] args) {
+
+		int tabInput[] = input();
+		if(!verification(tabInput)){
+			erreur();
+		}
+		int nbTrain=tabInput[0];
+		int[] tailleSection = defineSections(tabInput);
+		
+			tabTempSection = new int[tailleSection.length +1];
+			for(int i =0; i< tabTempSection.length; i++){
+				tabTempSection[i]=0;
+			}
+			
+			for(int i= 1;i<=nbTrain ;i++ ){
+				calcul(tailleSection, i);
+			}
+			
+    }
+
+
+
+	/**
+	 * @param tabInput
+	 * @return
+	 */
+	private static int[] defineSections(int[] tabInput) {
+		int tailleSection[] = new int[tabInput.length -1];
+		for(int i=1;i< tabInput.length ; i++){
+			tailleSection[i-1]=tabInput[i];
+		}
+		return tailleSection;
+	}
+
+
+	
+
+	
 
 
 
