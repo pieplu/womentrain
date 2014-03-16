@@ -46,51 +46,7 @@ public class Solution {
 	//=============================================================================
 
 	
-	
-//	private static void calcul(int[] tailleSection, int numTrain) {
-//		System.out.printf(numTrain + " : *****");
-//		int tempdepart=0;
-//		int pause = 1;
-//		int depart = 0;
-//		int arrive = 0;
-//		
-//		for(int i =0; i < tailleSection.length; i++){
-//			if (numTrain == 1 && i > 0){
-//				pause =121;
-//			}
-//			
-//			if (numTrain ==1){
-//				depart = tabTempSection[i+1] + arrive +pause;
-//			}else{
-//				depart = tabTempSection[i+1] + pause;
-//			}
-//			 if (arrive > depart){
-//				 depart = arrive + 121;
-//			 }
-//			 if (i == (tailleSection.length-1)){
-//				 if (arrive == (dernier+1)){
-//					 depart += 121;
-//				 }
-//				 
-//			 }
-//			 
-//			// System.out.print(" AR " + arrive + " ~| "+depart);
-//			arrive = depart + (int)Math.ceil(distanceAcceleration(tailleSection[i]));
-//			System.out.printf(" - %5s  %5s",  depart , arrive);
-//			
-//			tabTempSection[i]=depart;
-//			if (i == (tailleSection.length-1)){
-//				tabTempSection[i+1]=arrive;
-//				dernier = arrive;
-//				
-//			}
-//		}
-//		
-//		System.out.printf(" *****\n");
-//		
-//		
-//		//return tabTempSection;
-//	}
+
 	
 	
 	public static double calcVitesseChangement(int distance){
@@ -111,7 +67,7 @@ public class Solution {
 		}	
 	}
 	
-	public static void calculBis(int[] tailleSection, int numTrain){
+	public static void calcul(int[] tailleSection, int numTrain){
 		System.out.printf(numTrain + " : *****");
 		int tempdepart=0;
 		int pause = 1;
@@ -159,56 +115,6 @@ public class Solution {
 
 	
 	
-
-
-
-
-//	public static double distanceAcceleration(double distanceSection){
-//		float dt = 0.005f;     	// frequence d'echantillonage en secondes
-//		float accel = 0.75f; 		// m/s²        // m/s
-//		//double position = 0.0; 
-//		double speed=0.0;// m
-//		double time;
-//		double distTemp;
-//		double rest_position = distanceSection;
-//		
-//		for (time = 0.0; distanceDecceleration(speed, rest_position) >= 0; time += dt){
-//			distTemp = (accel * dt * dt / 2.00) + speed * dt;
-//			//position += distTemp;
-//			rest_position -= distTemp;
-//			if (speed < 25){
-//				speed += accel * dt;
-//			}
-//			//System.out.println("-----\t" + time + " | " + speed + " | " + position);
-//		}
-//		return time + timeDec;
-//	}
-//	
-//	
-//	public static double distanceDecceleration(double speed, double rest_position){
-//		float dt = 0.5f;     	// frequence d'echantillonage en secondes
-//		float decel = 1.055556f; // m/s²
-//		double restPourDt = rest_position;
-//		double temps;
-//		
-//		for (temps = 0.0; speed >= 0; temps += dt){
-//			if(restPourDt<500){
-//				dt = 0.005f;
-//			}else if(restPourDt<300){
-//				dt= 0.0005f;
-//			}//else if(restPourDt<200){
-//				//dt = 0.000005f;
-//			//}
-//			//System.out.println( "*****\t" + time + "-" + speed + "-" + rest_position);
-//			rest_position -= (decel * dt * dt / 2.00) + speed * dt;
-//			speed -= decel * dt;
-//		}		
-//		timeDec = temps;
-//		return rest_position;	
-//	}
-	
-	
-	
 	
 	//=============================================================================
 	//==================          		MAIN  					 ==================
@@ -232,7 +138,7 @@ public class Solution {
 			}
 			
 			for(int i= 1;i<=nbTrain ;i++ ){
-				calculBis(tailleSection, i);
+				calcul(tailleSection, i);
 			}
 			
 		}else{
@@ -242,9 +148,6 @@ public class Solution {
 
 
 	
-	
-
-
 
 	private static void verification(int tabAverif[]) {
 		int nTrain=tabAverif[0];
